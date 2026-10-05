@@ -12,12 +12,8 @@ This is a solution to the [Article preview component challenge on Frontend Mento
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
   - [Continued development](#continued-development)
-  - [Useful resources](#useful-resources)
   - [AI Collaboration](#ai-collaboration)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
-
-**Note: Delete this note and update the table of contents based on what sections you keep.**
 
 ## Overview
 
@@ -30,20 +26,12 @@ Users should be able to:
 
 ### Screenshot
 
-![](./screenshot.jpg)
-
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
-
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it. 
-
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
-
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
+![](./screenshot.png)
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- [Solution URL](https://github.com/tea-leaves00/article-preview-component)
+- [Live Site URL](https://github.com/tea-leaves00/article-preview-component)
 
 ## My process
 
@@ -54,69 +42,73 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - Flexbox
 - CSS Grid
 - Mobile-first workflow
-- [React](https://reactjs.org/) - JS library
-- [Next.js](https://nextjs.org/) - React framework
-- [Styled Components](https://styled-components.com/) - For styles
-
-**Note: These are just examples. Delete this note and replace the list above with your own choices**
+- BEM naming convention
+- Vanilla JavaScript
 
 ### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+This was my first Frontend Mentor challenge with any JavaScript, and the main lesson was how little JS you need when the CSS does the heavy lifting.
 
-To see how you can add code snippets, see below:
+**Letting `aria-expanded` drive the styling.** Instead of toggling a class, the share button's `aria-expanded` attribute is the single source of truth. The JS only flips that attribute:
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
 ```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
+const shareBtn = document.querySelector(".share-btn");
+
+shareBtn.addEventListener("click", () => {
+  const isOpen = shareBtn.getAttribute("aria-expanded") === "true";
+  shareBtn.setAttribute("aria-expanded", String(!isOpen));
+});
+```
+
+The CSS uses `:has()` to react to it, so the button's state can style its parent and siblings:
+
+```css
+.card__footer:has(.share-btn[aria-expanded="true"]) .share-menu {
+  display: flex;
 }
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+Screen readers announce the expanded or collapsed state for free, and the visual state and the accessible state can't get out of sync.
 
-**Note: Delete this note and the content within this section and replace with your own learnings.**
+**Skipping `overflow: hidden` on the card.** Normally I'd use it to clip the image to the card's rounded corners. Here, the desktop share popup hangs outside the card, so `overflow: hidden` would cut it off. Instead, the image and the footer round their own corners.
+
+**Padding the children instead of the parent.** On mobile, the open share bar has to reach the full width of the card. I put the side padding on each direct child instead of on the content wrapper, which avoids negative margins:
+
+```css
+.card__content > * {
+  padding-inline: 2rem;
+}
+```
 
 ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
-
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.**
-
-### Useful resources
-
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
-
-**Note: Delete this note and replace the list above with resources that helped you during the challenge. These could come in handy for anyone viewing your solution or for yourself when you look back on this project in the future.**
+- **Interaction details:** closing the share menu when you click outside it or press Escape.
+- **Hover and `:focus-visible` states:** adding them for the share button and the social links.
+- **Writing more of the CSS layout myself** before reaching for help, especially positioning.
 
 ### AI Collaboration
 
-Describe how you used AI tools (if any) during this project. This helps demonstrate your ability to work effectively with AI assistants.
+I used **Claude Code** throughout this project as a pair programmer and tutor.
 
-- What tools did you use (e.g., ChatGPT, Claude, GitHub Copilot)?
-- How did you use them (e.g., debugging, generating boilerplate, brainstorming solutions)?
-- What worked well? What didn't?
+**How I used it**
+- **HTML review:** checked my first-pass HTML for semantics and accessibility. It suggested `<article>`, `<footer>` and a real `<button>` for the share icon, empty `alt` text on decorative images, and `aria-expanded`/`aria-controls` on the button.
+- **CSS foundations:** generated a starting point for the `:root` variables (from the style guide) and a minimal CSS reset. I then trimmed both down to what I wanted.
+- **BEM classes:** added BEM class names to the markup.
+- **CSS, one section at a time:** walked through the styles one section at a time (card, image, content, author, share menu). It explained each choice, and I asked questions and decided between approaches before it wrote the code.
+- **Checking against the design:** took headless Chrome screenshots to compare my build against the design files.
+- **Git:** handled conventional commits along the way.
+- **Learning notes:** wrote a CSS notes file explaining the reasoning behind every rule, so I could review and understand it afterwards.
 
-**Note: Delete this note and the content above if you didn't use AI, or replace with your own experience.**
+**What worked well**
+- Working in small steps, asking "what do you think?" before having it write anything, kept me in control of the decisions.
+- Asking it to explain trade-offs (flex vs. grid for centering, `max-width` vs. `width`, `:has()` vs. toggling a class) taught me more than just getting code.
+
+**What didn't**
+- **One suggestion fell short:** its first idea for the full-width mobile share bar (just dropping the bottom padding) wouldn't have worked. It caught that and switched to the child-padding approach.
+- **I had to check its estimates:** some values, like the heading size and the shadow, are its estimates from the design images rather than exact specs.
+- **I still have to study it:** I want to write more of the CSS myself next time, instead of mostly reviewing it.
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
-
-**Note: Delete this note and add/remove/edit lines above based on what links you'd like to share.**
-
-## Acknowledgments
-
-This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
-
-**Note: Delete this note and edit this section's content as necessary. If you completed this challenge by yourself, feel free to delete this section entirely.**
+- Frontend Mentor - [@tea-leaves00](https://www.frontendmentor.io/profile/tea-leaves00)
+- GitHub - [@tea-leaves00](https://github.com/tea-leaves00)
