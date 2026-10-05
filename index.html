@@ -12,37 +12,37 @@
 </head>
 <body>
   <main>
-    <article>
-      <img src="./images/drawers.jpg" alt="Green wooden dresser with a vase of dried grass and framed prints against a white brick wall">
+    <article class="card">
+      <img class="card__image" src="./images/drawers.jpg" alt="Green wooden dresser with a vase of dried grass and framed prints against a white brick wall">
 
-      <div>
-        <h1>
+      <div class="card__content">
+        <h1 class="card__title">
           Shift the overall look and feel by adding these wonderful
           touches to furniture in your home
         </h1>
 
-        <p>Ever been in a room and felt like something was missing? Perhaps
+        <p class="card__description">Ever been in a room and felt like something was missing? Perhaps
         it felt slightly bare and uninviting. I’ve got some simple tips
         to help you make any room feel complete.</p>
 
-        <footer>
-          <div>
-            <img src="./images/avatar-michelle.jpg" alt="">
-            <p>Michelle Appleton</p>
-            <time datetime="2020-06-28">28 Jun 2020</time>
+        <footer class="card__footer">
+          <div class="author">
+            <img class="author__avatar" src="./images/avatar-michelle.jpg" alt="">
+            <p class="author__name">Michelle Appleton</p>
+            <time class="author__date" datetime="2020-06-28">28 Jun 2020</time>
           </div>
 
-          <div id="share-menu">
-            <p>Share</p>
-            <ul>
-              <li><a href="#"><img src="./images/icon-facebook.svg" alt="Facebook"></a></li>
-              <li><a href="#"><img src="./images/icon-twitter.svg" alt="Twitter"></a></li>
-              <li><a href="#"><img src="./images/icon-pinterest.svg" alt="Pinterest"></a></li>
+          <div class="share-menu" id="share-menu">
+            <p class="share-menu__label">Share</p>
+            <ul class="share-menu__list">
+              <li class="share-menu__item"><a class="share-menu__link" href="#"><img class="share-menu__icon" src="./images/icon-facebook.svg" alt="Facebook"></a></li>
+              <li class="share-menu__item"><a class="share-menu__link" href="#"><img class="share-menu__icon" src="./images/icon-twitter.svg" alt="Twitter"></a></li>
+              <li class="share-menu__item"><a class="share-menu__link" href="#"><img class="share-menu__icon" src="./images/icon-pinterest.svg" alt="Pinterest"></a></li>
             </ul>
           </div>
 
-          <button type="button" aria-label="Share" aria-expanded="false" aria-controls="share-menu">
-            <img src="./images/icon-share.svg" alt="">
+          <button class="share-btn" type="button" aria-label="Share" aria-expanded="false" aria-controls="share-menu">
+            <img class="share-btn__icon" src="./images/icon-share.svg" alt="">
           </button>
         </footer>
       </div>
