@@ -2,4 +2,4 @@
 *.xd
 *.fig
 .DS_Store
-./article-preview-component-figma/
+/article-preview-component-figma/
